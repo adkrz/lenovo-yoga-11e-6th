@@ -1,0 +1,1 @@
+This repository contains some tweaks, that I found useful during installing Windows and Linux on Lenovo ThinkPad Yoyga 11E 6th gen. (version with m3-8100Y and 4GB RAM, non-chromebook).
