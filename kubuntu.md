@@ -15,8 +15,8 @@ then reboot.
 
 # Touchscreen in Okular (PDF viewer) in LTS
 The Okular version in Kubuntu LTS suffers from weird bug: touchscreen pinch zoom results in page scrolling. Easiest solution is to uninstall it and take newer one from Snap:
-`apt remove okular`
-`snap install okular`
+`sudo apt remove okular`, then 
+`sudo snap install okular`
 In 23.10 the program is already fixed.
 
 # No screensaver suppression in LXDE
@@ -36,5 +36,8 @@ The best what I can do:
 - install easyeffects (in older LTS version: pulseeffects)
 - install presets for easyeffects: https://github.com/JackHack96/EasyEffects-Presets
 - try the Laptop aka LoudnessEqualizer preset.
+
 What I also tried:
-- I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try... Please contribute if you know any better solution or figured out a nice easyeffects preset.
+- I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try... 
+
+Please contribute if you know any better solution or figured out a nice easyeffects preset.

@@ -15,11 +15,13 @@ This laptop has only 4GB of soldered RAM, therefore some usual tweaks neeed to b
 
 # WSL
 If you want to use the WSL susbsystem, I recommend WSL1 instead of WSL2, it uses way less RAM. There may be a problem when using Visual Studio Code. For example, when installing Python addon to WSL, it terminates with EACCESS errors on folder renaming. The solution is: Open vscode config file, like `C:\Users\xxx\AppData\Roaming\Code\User\settings.json` and add the key:
-`
+
+```
 {
    "remote.WSL.fileWatcher.polling": true
 }
-`
+```
+
 Close vscode, close all WSL processes `wsl --shutdown` and try again.
 
 # Windows 11
