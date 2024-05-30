@@ -19,6 +19,17 @@ The Okular version in Kubuntu LTS suffers from weird bug: touchscreen pinch zoom
 `sudo snap install okular`
 In 23.10 the program is already fixed.
 
+# Speed up Firefox
+There is a small but noticeable difference in performance of default Firefox (installed from Snap) compared to the one installed natively.
+You can follow the official guide from Mozilla:
+https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-distributions
+After that, migrate the profile (copy data from ~/snap/ to ~/.mozilla) and remove the old FF using `snap remove firefox`.
+
+Note, that after upgrading 23.10 to 24.04 LTS version (because of end of support), the just added repository will be disabled by the updater. To re-enable it after installing new system version:
+- do not do apt-get upgrade now, because this will restore the snap firefox
+- go to /etc/apt/sources.list.d and remove the ".distUpgrade" suffix from "firefox..." file.
+- apt-get update && apt-get upgrade
+
 # No screensaver suppression in LXDE
 If you decide to use LXDE instead of KDE, there is a problem: screen goes to sleep after inactivity, also when watching movie in browser or during Skype video call. This is a bug, it seems to affect all Chromium-based browsers and Electron apps (like Skype). I don't know any permanent solution. The working ones are:
 - use KDE :)
