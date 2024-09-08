@@ -41,6 +41,11 @@ Either:
 - open terminal, run alsamixer, switch to recording devices and set microphone boost to zero
 - or, click the KDE system tray sound icon and lower microphone volume to around 32-35%
 
+# Enable Bluetooth
+By default, BT cannot be enabled from KDE control panel. The rfkill command reports it as hard blocked. Create file `/etc/modprobe.d/thinkpad_acpi.conf` with the following contents:
+`options thinkpad_acpi dbg_wlswemul=1 wlsw_state=1`
+, then reboot
+
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
 The best what I can do:
