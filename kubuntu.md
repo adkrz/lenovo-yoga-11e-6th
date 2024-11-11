@@ -4,7 +4,7 @@ The advices are for Kubuntu in version 23.10 and 22.04 LTS, but one may find the
 # Touchscreen cursor
 To get the same mouse cursor behavior as in Windows (on screen touch, the cursor disappears, appears again after touchpad use):
 - install packages `unclutter-xfixes` and `unclutter-startup`. unclutter-xfixes must be in version 1.6 or newer. If you are using Kubuntu 22.04 LTS, there is an older version of package. You can manually visit `packages.ubuntu.com` and download newer one from there (from newest release), then install with `sudo dpkg -i filename.deb`.
-- open file `/etct/default/unclutter`. Locate line starting with EXTRA_OPTS and change the options in quotes to `"--hide-on-touch"`
+- open file `/etc/default/unclutter`. Locate line starting with EXTRA_OPTS and change the options in quotes to `"--hide-on-touch"`
 - relogin
 
 # Touchscreen in Firefox
