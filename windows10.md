@@ -15,6 +15,7 @@ This laptop has only 4GB of soldered RAM, therefore some usual tweaks neeed to b
 - go to my folder `win_tweaks`, there are registry files with tweaks that I usually apply:
    - disable automatic install of advertised apps, like candy crush saga or whatever
    - disable searching the internet from start menu
+   - if you are the only PC user and are using BitLocker with PIN, you may want to enable user autologin. Import registry key, then run "control userpasswords2", uncheck that user must enter password, apply and enter account name for autologin
    - if you intend to dual boot with Linux, you may want to set Windows to treat the hardware clock as UTC, which is default for Linux. Note: after applying that, reboot. After reboot, you will see incorrect time. Right click on system tray clock, adjust date-time and trigger internet synchronization.
 
 # MS Edge
