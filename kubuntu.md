@@ -46,6 +46,11 @@ By default, BT cannot be enabled from KDE control panel. The rfkill command repo
 `options thinkpad_acpi dbg_wlswemul=1 wlsw_state=1`
 , then reboot
 
+# Screen rotation in convertible mode
+https://askubuntu.com/questions/1469242/how-to-autorotate-convertible-laptop-screen-in-ubuntu-and-kubuntu
+- in Wayland works out of the box
+- in X11 there is an app called Screen Rotator
+
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
 The best what I can do:
@@ -54,6 +59,7 @@ The best what I can do:
 - try the Laptop aka LoudnessEqualizer preset.
 
 What I also tried:
-- I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try... 
+- I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try...
+- JamesDSP is the simpler alternative to EasyEffects, seems to be more lightweight, does not create another audio sink (which changes volume controls in KDE). It is also capable of loading IRS.
 
 Please contribute if you know any better solution or figured out a nice easyeffects preset.
