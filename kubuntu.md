@@ -1,11 +1,16 @@
 Below I collected some advices for installing Kubuntu on Lenovo Yoga 11E 6th gen.
-The advices are for Kubuntu in version 23.10 and 22.04 LTS, but one may find them useful for other Linux installation as well.
+The advices are for Kubuntu in version 23.10 and 22.04 LTS, but one may find them useful for other Linux installation as well, like Linux Mint.
+
+# During installation
+Make sure, that you create a swap partition, at least 4GB. This will help with small amount of RAM + enable hibernation.
 
 # Touchscreen cursor
 To get the same mouse cursor behavior as in Windows (on screen touch, the cursor disappears, appears again after touchpad use):
 - install packages `unclutter-xfixes` and `unclutter-startup`. unclutter-xfixes must be in version 1.6 or newer. If you are using Kubuntu 22.04 LTS, there is an older version of package. You can manually visit `packages.ubuntu.com` and download newer one from there (from newest release), then install with `sudo dpkg -i filename.deb`.
 - open file `/etc/default/unclutter`. Locate line starting with EXTRA_OPTS and change the options in quotes to `"--hide-on-touch"`
 - relogin
+- or:
+In Cinnamon, it works OOTB, as well as in KDE in Wayland mode
 
 # Touchscreen in Firefox
 Firefox does support the touchscreen events, but for some unknown reason they are disabled (unlike in Chrome). To enable them, one must set environment variable `MOZ_USE_XINPUT2=1`.
@@ -20,7 +25,7 @@ The Okular version in Kubuntu LTS suffers from weird bug: touchscreen pinch zoom
 In 23.10 the program is already fixed.
 
 # Speed up Firefox
-There is a small but noticeable difference in performance of default Firefox (installed from Snap) compared to the one installed natively.
+There is a small but noticeable difference in performance of default Firefox (installed from Ubuntu's Snap) compared to the one installed natively.
 You can follow the official guide from Mozilla:
 https://support.mozilla.org/en-US/kb/install-firefox-linux#w_install-firefox-deb-package-for-debian-based-distributions
 After that, migrate the profile (copy data from ~/snap/ to ~/.mozilla) and remove the old FF using `snap remove firefox`.
@@ -50,6 +55,36 @@ By default, BT cannot be enabled from KDE control panel. The rfkill command repo
 https://askubuntu.com/questions/1469242/how-to-autorotate-convertible-laptop-screen-in-ubuntu-and-kubuntu
 - in Wayland works out of the box
 - in X11 there is an app called Screen Rotator
+- In Cinnamon works out of the box
+
+# In dual boot, time is off by several hours and fixes itself after about 1min after startup
+- Set Windows installation to treat BIOS clock (RTC) as UTC. Import the following registry key:
+```
+﻿Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation]
+     "RealTimeIsUniversal"=hex(b):01,00,00,00,00,00,00,00
+```
+
+- reboot the Windows. After reboot, clock will be invalid. Correct it e.g. by updating it from internet time
+- reboot to Linux and type `sudo timedatectl set-local-rtc 0`
+
+# Touching USB mouse wakes up from standby
+If this is unintended behavior, follow the advice from [Mint Forum](https://forums.linuxmint.com/viewtopic.php?t=413168), to create service that commands USB to ignore wakeup:
+```
+lspci | grep USB | cut -d " " -f 1 > ~/t7s1 \
+&& cat /proc/acpi/wakeup > ~/t7s2 && grep -f ~/t7s1 ~/t7s2 > ~/t7s3 \
+&& cat ~/t7s3 | cut -c 1-4 > ~/t7s1 \
+&& sed -i -e 's|^|echo "|' -e 's|$|" > /proc/acpi/wakeup|' ~/t7s1 \
+&& tr -d '\t' < ~/t7s1 > ~/t7s2 && sed -i '1s|^|#!/bin/sh\n|' ~/t7s2 \
+&& sudo cp -f ~/t7s2 /usr/local/bin/nowusb.sh \
+&& sudo chmod +x /usr/local/bin/nowusb.sh && rm -f ~/t7s1 ~/t7s2 ~/t7s3 \
+&& printf '%s\n' '[Unit]' 'Description=no-wakeup-usb' '[Service]' \
+'ExecStart=/usr/local/bin/nowusb.sh' '[Install]' \
+'WantedBy=multi-user.target' \
+| sudo tee /etc/systemd/system/no_wakeup_usb.service \
+&& sudo systemctl enable no_wakeup_usb.service
+```
 
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
@@ -63,3 +98,4 @@ What I also tried:
 - JamesDSP is the simpler alternative to EasyEffects, seems to be more lightweight, does not create another audio sink (which changes volume controls in KDE). It is also capable of loading IRS.
 
 Please contribute if you know any better solution or figured out a nice easyeffects preset.
+
