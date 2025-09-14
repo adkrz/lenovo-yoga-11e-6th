@@ -86,6 +86,19 @@ lspci | grep USB | cut -d " " -f 1 > ~/t7s1 \
 && sudo systemctl enable no_wakeup_usb.service
 ```
 
+# Random screen flickering
+The screen blinking issue on Intel GPUs is known. The common solutions like adding `i915.enable_psr=0` to kernel command line do not work.
+What seems to help is creating a file `/etc/X11/xorg.conf.d/20-intel-graphics.conf` with the following content:
+```
+Section "Device"
+   Identifier  "Intel Graphics"
+   Driver      "intel"
+   Option      "TripleBuffer" "true"
+   Option      "TearFree"     "true"
+   Option      "DRI"          "false"
+EndSection
+```
+
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
 The best what I can do:
