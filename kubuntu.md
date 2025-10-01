@@ -99,6 +99,12 @@ Section "Device"
 EndSection
 ```
 
+# Hardware accelerated video playback
+Firefox and Chrome support it in Wayland mode, not in x11. However, Wayland comes with own issues - for me, sometimes screen turns off and does not start again. Also, to make apps like Chrome working under Wayland session, you may need to add some packages, like `qtwayland5`.
+You may want to install `intel-media-va-driver-non-free` in order to support both encoding and decoding of video streams. The free version only supports decoding.
+To verify if HW acceleration is enabled, check page `about:support` in Firefox and `chrome://gpu` in Chrome. Also, during playback, the command `sudo intel_gpu_top` from `intel-gpu-tools` package informs if the video acceleration is actually in use. This not only depends on driver support, but also on what codec does e.g. Youtube use currently.
+
+
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
 The best what I can do:
