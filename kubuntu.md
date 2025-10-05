@@ -3,6 +3,14 @@ The advices are for Kubuntu in version 23.10 and 22.04 LTS, but one may find the
 
 # During installation
 Make sure, that you create a swap partition, at least 4GB. This will help with small amount of RAM + enable hibernation.
+If forgotten, at least create a swap file:
+```
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+mkswap /swapfile
+```
+Open `\etc\fstab` and add: `/swapfile swap swap defaults 0 0`, then reboot.
+Note: swapfile option does not work with hibernation.
 
 # Touchscreen cursor
 To get the same mouse cursor behavior as in Windows (on screen touch, the cursor disappears, appears again after touchpad use):
@@ -13,10 +21,11 @@ To get the same mouse cursor behavior as in Windows (on screen touch, the cursor
 In Cinnamon, it works OOTB, as well as in KDE in Wayland mode
 
 # Touchscreen in Firefox
-Firefox does support the touchscreen events, but for some unknown reason they are disabled (unlike in Chrome). To enable them, one must set environment variable `MOZ_USE_XINPUT2=1`.
+Firefox does support the touchscreen events, but for some unknown reason they are disabled in X11 (unlike in Chrome). To enable them, one must set environment variable `MOZ_USE_XINPUT2=1`.
 To set the variable globally in system, one can edit the file `/etc/security/pam_env.conf` and add the line:
 `MOZ_USE_XINPUT2 DEFAULT=1`
 then reboot.
+In Wayland, touch gestures work by default.
 
 # Touchscreen in Okular (PDF viewer) in LTS
 The Okular version in Kubuntu LTS suffers from weird bug: touchscreen pinch zoom results in page scrolling. Easiest solution is to uninstall it and take newer one from Snap:
@@ -87,23 +96,19 @@ lspci | grep USB | cut -d " " -f 1 > ~/t7s1 \
 ```
 
 # Random screen flickering
-The screen blinking issue on Intel GPUs is known. The common solutions like adding `i915.enable_psr=0` to kernel command line do not work.
-What seems to help is creating a file `/etc/X11/xorg.conf.d/20-intel-graphics.conf` with the following content:
-```
-Section "Device"
-   Identifier  "Intel Graphics"
-   Driver      "intel"
-   Option      "TripleBuffer" "true"
-   Option      "TearFree"     "true"
-   Option      "DRI"          "false"
-EndSection
-```
+The screen blinking issue on Intel GPUs is known. The common solutions like adding `i915.enable_psr=0`, `xe.enable_psr=0` to kernel command line do not work. I still try to find the solution.
 
 # Hardware accelerated video playback
-Firefox and Chrome support it in Wayland mode, not in x11. However, Wayland comes with own issues - for me, sometimes screen turns off and does not start again. Also, to make apps like Chrome working under Wayland session, you may need to add some packages, like `qtwayland5`.
+Seems to be supported in both Firefox and Chrome, in X11 and Wayland.
+Please do not make any strange changes to `/etc/X11/xorg.conf.d` - these tend to mess up with VAAPI. If you must do it, make sure, that you use `modesetting` driver, not `intel` which is deprecated.
 You may want to install `intel-media-va-driver-non-free` in order to support both encoding and decoding of video streams. The free version only supports decoding.
 To verify if HW acceleration is enabled, check page `about:support` in Firefox and `chrome://gpu` in Chrome. Also, during playback, the command `sudo intel_gpu_top` from `intel-gpu-tools` package informs if the video acceleration is actually in use. This not only depends on driver support, but also on what codec does e.g. Youtube use currently.
+The command `vainfo` informs about video decoding capabilities as well.
 
+# Wayland in Mint
+It is still experimental - expect troubles :)
+Screensaver and screen locking is not working - disable it. Otherwise you may end up with screen randomly going blank. To "unlock" it, switch to console mode `CTRL+ALT+F1` and then back to GUI: `CTRL+ALT+F7`.
+To run apps like Chrome or KeepassXC, you'll need to install `qtwayland5` package.
 
 # Bad audio quality on internal speakers
 This is one of the biggest unsolved issues with this laptop (Intel audio using Realtek ALC 257). On Windows, it features Dolby Audio Premium driver. On Linux, the sound is quiet and distorted. I do not have any ultimate solution for that.
