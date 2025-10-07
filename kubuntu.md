@@ -96,7 +96,9 @@ lspci | grep USB | cut -d " " -f 1 > ~/t7s1 \
 ```
 
 # Random screen flickering
-The screen blinking issue on Intel GPUs is known. The common solutions like adding `i915.enable_psr=0`, `xe.enable_psr=0` to kernel command line do not work. I still try to find the solution.
+The screen blinking issue on Intel GPUs is known. 
+What seems to help is adding kernel parameter `intel_iommu=igfx_off` to `/etc/default/grub`, then calling `update-grub` and reboot.
+The common solutions like adding `i915.enable_psr=0`, `xe.enable_psr=0` to kernel command line do not work.
 
 # Hardware accelerated video playback
 Seems to be supported in both Firefox and Chrome, in X11 and Wayland.
@@ -119,6 +121,7 @@ The best what I can do:
 
 What I also tried:
 - I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try...
+- the easyeffects filter chain: compressor + convolver + limiter seems to work the best
 - JamesDSP is the simpler alternative to EasyEffects, seems to be more lightweight, does not create another audio sink (which changes volume controls in KDE). It is also capable of loading IRS.
 
 Please contribute if you know any better solution or figured out a nice easyeffects preset.
