@@ -123,6 +123,7 @@ What I also tried:
 - I came across the method to record impulse response using Windows, creating IRS file out of it and then using it in EasyEffects convolver plugin. The method is described here: https://www.youtube.com/watch?v=Pktc2_Esp8I and here: https://github.com/shuhaowu/linux-thinkpad-speaker-improvements. With this method, sound is more "deep", however still quiet. My captured IRS is attached to this project, you can take it and try...
 - the easyeffects filter chain: compressor + convolver + limiter seems to work the best
 - JamesDSP is the simpler alternative to EasyEffects, seems to be more lightweight, does not create another audio sink (which changes volume controls in KDE). It is also capable of loading IRS.
+- another alternative (more CPU-friendly) is to use Pipewire convolver directly - see file conv.conf in this repository. This file creates new virtual device "YogaHD" to use instead of default one.
 
 Please contribute if you know any better solution or figured out a nice easyeffects preset.
 
